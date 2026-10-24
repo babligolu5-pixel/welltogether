@@ -18,7 +18,7 @@ export type EnquiryFieldErrors = Partial<
 const EMAIL_RE = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
 const PHONE_RE = /^[+0-9][0-9\s-]{6,18}$/;
 
-export const RATE_LIMIT_MS = 10_000;
+export const RATE_LIMIT_MS = 30_000;
 const RATE_LIMIT_KEY = 'wt:lastEnquiryAt';
 
 export function validateEnquiry(draft: EnquiryDraft): EnquiryFieldErrors {

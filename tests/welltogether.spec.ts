@@ -377,7 +377,7 @@ test.describe('enquiry flow', () => {
 
     const error = page.getByTestId('enquiry-error');
     await expect(error).toBeVisible();
-    await expect(error).toContainText('wait a few seconds');
+    await expect(error).toContainText('before sending another enquiry');
     await expect(error).not.toContainText('permission');
   });
 

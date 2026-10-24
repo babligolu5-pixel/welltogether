@@ -2,13 +2,11 @@ import { test, expect, type Page } from '@playwright/test';
 
 /**
  * Interaction coverage: every control must do something real.
- * Visibility alone is not enough â€” clicks, keyboard, focus and form state are
+ * Visibility alone is not enough — clicks, keyboard, focus and form state are
  * asserted here.
  */
 
 const SECTION_LINKS = [
-  { name: 'Services', id: 'services' },
-  { name: 'Centres', id: 'centres' },
   { name: 'How It Works', id: 'how-it-works' },
   { name: 'Reviews', id: 'reviews' },
 ];
@@ -74,16 +72,16 @@ test.describe('navigation controls', () => {
   test('every internal anchor points at a real section', async ({ page }) => {
     await page.goto('/');
 
-    const hrefs = await page.locator('a[href^="#"]').evaluateAll((nodes) =>
+    const hrefs = await page.locator('a[href*="#"]').evaluateAll((nodes) =>
       nodes.map((node) => node.getAttribute('href') ?? ''),
     );
 
-    expect(hrefs.length).toBeGreaterThan(3);
+    expect(hrefs.length).toBeGreaterThanOrEqual(2);
     for (const href of hrefs) {
-      const target = href.replace('#', '');
-      await expect(page.locator(`#${target}`)).toHaveCount(1);
+      const hash = href.slice(href.indexOf('#') + 1);
+      expect(hash.length).toBeGreaterThan(0);
+      await expect(page.locator(`#${hash}`)).toHaveCount(1);
     }
-    expect(hrefs).not.toContain('#');
   });
 });
 
@@ -233,7 +231,7 @@ test.describe('enquiry form behaviour', () => {
     await page.getByTestId('enquiry-email').fill('second@example.com');
     await page.getByTestId('enquiry-message').fill('Second submit should be rate limited.');
     await page.getByTestId('enquiry-submit').click();
-    await expect(page.getByTestId('enquiry-error')).toContainText('wait a few seconds');
+    await expect(page.getByTestId('enquiry-error')).toContainText('before sending another enquiry');
   });
 
   test('dialog focus lands in the form and Escape closes it', async ({ page }) => {
