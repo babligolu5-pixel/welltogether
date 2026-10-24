@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F7F2E8"/>
+      <stop offset="0.55" stop-color="#E7EDE0"/>
+      <stop offset="1" stop-color="#DCE6EC"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  <circle cx="960" cy="170" r="120" fill="#C8B9A9" opacity="0.45"/>
+  <circle cx="960" cy="170" r="120" fill="none" stroke="#9CAF88" stroke-width="3" opacity="0.7"/>
+  <circle cx="960" cy="170" r="170" fill="none" stroke="#7C94A6" stroke-width="2" opacity="0.5"/>
+  <text x="90" y="300" font-family="Georgia, serif" font-size="92" fill="#2E3328">WellTogether</text>
+  <text x="90" y="370" font-family="Arial, sans-serif" font-size="34" fill="#5A5F55">Explore. Compare. Enquire.</text>
+  <rect x="90" y="430" width="270" height="64" rx="32" fill="#5F6B45"/>
+  <text x="225" y="471" text-anchor="middle" font-family="Arial, sans-serif" font-size="24" fill="#FFFFFF">Explore Wellness</text>
+</svg>
