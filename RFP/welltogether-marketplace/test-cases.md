@@ -68,6 +68,29 @@
 | TC-20 | In-memory adapter | n/a | field validation, rate limit | rejected with a user-readable message |
 | Rules (blocked) | `enquiries` documents via emulator | emulator reset | create allowed; read/update/delete denied | blocked: Java not installed |
 
+## Interaction coverage (TC-25 – TC-37)
+
+Executed in `tests/interactions.spec.ts` on Chromium, Firefox and WebKit, plus
+one headed Chromium pass for visual confirmation.
+
+| Control | Action | Expected effect | TC |
+| --- | --- | --- | --- |
+| Header nav ×4 | click | Section in view, `location.hash` matches | TC-25 |
+| Header CTA | click | Dialog opens; X, Esc and backdrop all close it | TC-26 |
+| Anchors | inspect | Every `#` anchor resolves to exactly one section, no `#` | TC-27 |
+| Mobile menu | click | `aria-expanded` flips, panel opens, link closes it | TC-28 |
+| Carousel controls | click | prev/next/wrap, dots update `aria-current`, arrows work | TC-29 |
+| Carousel pause | click | Play state flips both ways | TC-30 |
+| Service cards ×6 | click | Dialog opens with that service preselected | TC-31 |
+| Centre card | click | Dialog carries centre name + first service | TC-32 |
+| Form fields | type invalid | Inline name/email/message/phone errors, no server error | TC-33 |
+| Submit | click | Disabled while pending, success view appears | TC-34 |
+| Duplicate submit | click twice | Rate-limit message, no raw Firebase error | TC-35 |
+| Dialog focus | open + Tab | Autofocus first field, Tab reaches email, Esc closes | TC-36 |
+| Live write + rules | deployed URL | Real Firestore write succeeds; client read denied (403) | TC-19L, TC-20L |
+
+Evidence screenshots: `test-results/evidence/01-hero.png` … `06-centres.png`.
+
 ## Manual checks
 
 | ID | Title | Traces to | Steps | Expected result |
@@ -80,7 +103,9 @@
 
 - Requirements approved: 2026-10-24
 - Test cases approved: 2026-10-24
-- Last full run: `npm test` — 84/84 passed (chromium 28, firefox 28, webkit 28)
+- Last full run: `npm test` — 126 passed, 6 skipped (live cases), 3 browsers
+- Interaction suite: `tests/interactions.spec.ts` — 42/42 passed (14 × 3 browsers)
+- Headed pass: Chromium, `--workers=1` — 14/14 passed
 - Live suite: 30/30 passed against https://welltogether-77546.web.app
 - Production build: `npm run build` — pass
 - Deployed: `welltogether-77546` (2026-10-24) — hosting + Firestore rules

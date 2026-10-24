@@ -101,6 +101,26 @@ image size/format limits for Storage uploads, and emulator usage for tests.
 | ---- | ------------------------------- | ------- | -------------- | ----------------------------- |
 | TC-2 | ...                             | ...     | ...            | denied + friendly UI error    |
 
+## Interaction coverage
+
+Every interactive control appears once. Assert the effect, never the render.
+
+| Control | Action | Expected effect | TC |
+| ------- | ------ | --------------- | -- |
+| Header nav link | click | Section in view + `location.hash` updates | ... |
+| Header CTA | click | Dialog opens; X / Esc / backdrop all close it | ... |
+| Mobile menu toggle | click | `aria-expanded` flips, panel opens, a link closes it | ... |
+| Hero CTAs | click | Correct section scrolled, ≥ 44px, keyboard reachable | ... |
+| Carousel prev/next | click | Counter advances and wraps at the ends | ... |
+| Carousel dots | click | Target slide active, other dots inactive | ... |
+| Carousel pause | click | Play state flips both ways (`aria-pressed`) | ... |
+| Service card | click | Dialog opens with that service preselected | ... |
+| Centre card | click | Dialog carries the centre name + first service | ... |
+| Form fields | type invalid | Inline errors appear; fixing them clears the errors | ... |
+| Submit | click | Disabled while pending, success view, duplicate blocked | ... |
+| Dialog focus | open | Autofocus first field; Esc closes | ... |
+| Live write | deployed URL | Real Firestore write succeeds, client read denied | ... |
+
 ## Manual checks
 
 | ID   | Title | Traces to | Steps | Expected result |

@@ -96,6 +96,9 @@ Split coverage into:
   fixtures, plus at least one negative case per security rule — the client must
   not read or write what the rules forbid, and must not surface a raw Firebase
   permission error to the user.
+- Interaction coverage: one case per control (link, button, menu, card, form
+  field, submit) that asserts its *effect* — navigation, dialog prefill, error
+  text, success state, disabled state — not just that it renders.
 
 Automated cases are Playwright specs under `tests/` and follow the `playwright-cli`
 skill. Thumbnail/manual-only checks must be labelled manual with the exact
@@ -157,6 +160,43 @@ Loop:
    production build check: `npm run build` must succeed — Firebase Hosting
    serves that bundle, not the dev server.
 
+### Interaction verification — mandatory, not optional
+
+Rendering is not proof. A page that "looks right" can still have dead buttons,
+links that go nowhere, a menu that never closes, or a form that silently fails.
+Every feature ends with **browser-driven end-to-end interaction checks** using
+the `playwright-cli` skill.
+
+Run order for every feature:
+
+1. After coding, run the interaction spec first — it catches broken wiring.
+2. Then the full suite in all browsers.
+3. Fix, rerun. Repeat until green.
+4. Do one **headed** pass (`npx playwright test --headed --workers=1`) so the
+   flow is watched in a real browser, and keep screenshots as evidence.
+
+What "interacted" means — assert the effect, never the pixel:
+
+| Control | Must be proven |
+| --- | --- |
+| Nav / anchor links | Section actually scrolls into view; `location.hash` matches; no dead `#` anchors |
+| Header CTA | Opens the dialog; every close path works (X, `Escape`, backdrop) |
+| Mobile hamburger | `aria-expanded` flips, panel opens, a link closes it and scrolls |
+| Hero CTAs | Both reach their section, ≥ 44px, keyboard reachable |
+| Carousel | Prev/next/dots wrap correctly, active dot moves, arrows work, pause changes the play state both ways |
+| Cards | Each card opens the dialog with its own name/service prefilled |
+| Form fields | Typing updates state; invalid values show inline errors; fixing clears them |
+| Submit | Button disables while pending; success view appears; duplicate submit is rate-limited; server errors are human-readable |
+| Focus | Dialog autofocus lands in the first field; `Escape` closes |
+| Rules (live) | A real write succeeds and a client read is denied (run against the deployed URL with `PLAYWRIGHT_BASE_URL`) |
+
+Flake policy: stabilize with `expect.poll`, explicit waits on state, or a slower
+test adapter — never by loosening the assertion. A test that only passes when
+run alone is a blocked item, not a pass.
+
+Evidence to keep in `test-results/evidence/`: hero/panel, dialog prefilled,
+validation errors, success state. Name them by step so the report can cite them.
+
 Test data: prefer the Firebase Emulator Suite (`firebase emulators:start`) for
 deterministic Firestore/Storage state and clean rules testing. If the emulators
 cannot run on this machine, use a dedicated test project with explicit seed and
@@ -210,7 +250,8 @@ without saying so.
 ## Final report
 
 End with: branch name, RFP file paths, requirement-to-test coverage table,
-`npm test` result per browser, `npm run build` result, files changed (code and
-rules), stack compliance note (client SDK only, no extra service), deploy status
-(not deployed / deployed to `<project>`), deferred items, and anything the user
-must review manually.
+`npm test` result per browser, `npm run build` result, interaction verification
+summary (control groups proven, headed pass done, evidence paths), files changed
+(code and rules), stack compliance note (client SDK only, no extra service),
+deploy status (not deployed / deployed to `<project>`), deferred items, and
+anything the user must review manually.

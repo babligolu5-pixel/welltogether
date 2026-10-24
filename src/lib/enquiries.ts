@@ -94,7 +94,8 @@ export async function submitEnquiry(draft: EnquiryDraft): Promise<void> {
   if (draft.centreId) payload.centreId = draft.centreId;
 
   if (isE2EMode) {
-    await sleep(250);
+    // Slow enough that the pending state is observable in browser tests.
+    await sleep(1200);
     markSubmitted();
     return;
   }
