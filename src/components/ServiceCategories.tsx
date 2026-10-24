@@ -1,11 +1,10 @@
+import { useEnquiry } from '../lib/enquiryContext';
 import { SERVICES } from '../data/site';
 import ServiceIcon from './ServiceIcon';
 
-interface Props {
-  onEnquire: (service: string) => void;
-}
+export default function ServiceCategories() {
+  const openEnquiry = useEnquiry();
 
-export default function ServiceCategories({ onEnquire }: Props) {
   return (
     <section className="section" id="services" data-testid="services" aria-labelledby="services-title">
       <div className="container">
@@ -26,7 +25,7 @@ export default function ServiceCategories({ onEnquire }: Props) {
               className="card category-card"
               data-testid="category-card"
               data-service={service.slug}
-              onClick={() => onEnquire(service.name)}
+              onClick={() => openEnquiry({ service: service.name })}
             >
               <ServiceIcon name={service.icon} />
               <h3>{service.name}</h3>

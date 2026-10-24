@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { SERVICES } from '../data/site';
 import { submitEnquiry, validateEnquiry, type EnquiryDraft } from '../lib/enquiries';
-import type { EnquiryTarget } from './Header';
+import type { EnquiryTarget } from '../lib/types';
 
 interface Props {
   open: boolean;
@@ -83,7 +83,7 @@ export default function EnquiryDialog({ open, target, onClose }: Props) {
       const message = error instanceof Error ? error.message : 'unknown';
       setStatus('error');
       if (message === 'rate-limited') {
-        setFormError('Please wait a few seconds before sending another enquiry.');
+        setFormError('Please wait a moment before sending another enquiry.');
       } else if (message === 'firebase-not-configured') {
         setFormError(
           'Enquiries are not connected to the server yet. Please try again later.',
@@ -116,7 +116,7 @@ export default function EnquiryDialog({ open, target, onClose }: Props) {
           data-testid="enquiry-close"
           onClick={onClose}
         >
-          ×
+          Ã—
         </button>
 
         <h2 id="enquiry-title">Send a wellness enquiry</h2>

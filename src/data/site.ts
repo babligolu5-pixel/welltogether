@@ -38,6 +38,47 @@ export interface Step {
   body: string;
 }
 
+export interface MenuCategory {
+  slug: string;
+  label: string;
+  service: string;
+  intro: string;
+}
+
+/** Header "Services" menu. "Spa" maps to the Ayurvedic Spa service. */
+export const MENU_CATEGORIES: MenuCategory[] = [
+  {
+    slug: 'yoga',
+    label: 'Yoga',
+    service: 'Yoga',
+    intro: 'Hatha, Iyengar and restorative classes across India.',
+  },
+  {
+    slug: 'meditation',
+    label: 'Meditation',
+    service: 'Meditation',
+    intro: 'Guided sits, breathwork and multi-day silence retreats.',
+  },
+  {
+    slug: 'ayurveda',
+    label: 'Ayurveda',
+    service: 'Ayurveda',
+    intro: 'Physician consultations and daily routines rooted in tradition.',
+  },
+  {
+    slug: 'panchkarma',
+    label: 'Panchkarma',
+    service: 'Panchkarma',
+    intro: 'Supervised detox programmes with qualified practitioners.',
+  },
+  {
+    slug: 'spa',
+    label: 'Spa',
+    service: 'Ayurvedic Spa',
+    intro: 'Abhyanga, shirodhara and warm-oil therapies.',
+  },
+];
+
 export const SERVICES: Service[] = [
   {
     slug: 'yoga',
@@ -137,6 +178,66 @@ export const CENTRES: Centre[] = [
     reviewCount: 66,
     priceFrom: 2900,
     note: 'Forest walks, mud therapy and seasonal detox menus.',
+  },
+  {
+    id: 'sukha-sadhana',
+    name: 'Sukha Sadhana',
+    city: 'Bengaluru',
+    services: ['Yoga', 'Meditation', 'Ayurvedic Spa'],
+    rating: 4.6,
+    reviewCount: 112,
+    priceFrom: 1900,
+    note: 'City studio with early morning flows and weekend silence sits.',
+  },
+  {
+    id: 'arogya-dhama',
+    name: 'Arogya Dhama',
+    city: 'Nagpur',
+    services: ['Ayurveda', 'Panchkarma'],
+    rating: 4.4,
+    reviewCount: 47,
+    priceFrom: 1700,
+    note: 'Physician consultations and short supervised detox stays.',
+  },
+  {
+    id: 'prithvi-wellness',
+    name: 'Prithvi Wellness',
+    city: 'Udaipur',
+    services: ['Ayurvedic Spa', 'Natural Wellness', 'Meditation'],
+    rating: 4.8,
+    reviewCount: 76,
+    priceFrom: 2500,
+    note: 'Lakeside therapies, sound baths and slow evening walks.',
+  },
+  {
+    id: 'nirvritti-centre',
+    name: 'Nirvritti Centre',
+    city: 'Goa',
+    services: ['Meditation', 'Yoga'],
+    rating: 4.5,
+    reviewCount: 63,
+    priceFrom: 2200,
+    note: 'Breathwork and gentle yoga a short walk from the shore.',
+  },
+  {
+    id: 'shuddhi-panchkarma',
+    name: 'Shuddhi Panchkarma',
+    city: 'Ahmedabad',
+    services: ['Panchkarma', 'Ayurveda'],
+    rating: 4.7,
+    reviewCount: 88,
+    priceFrom: 2000,
+    note: 'Traditional detox protocols with daily physician rounds.',
+  },
+  {
+    id: 'aranya-retreat',
+    name: 'Aranya Retreat',
+    city: 'Coorg',
+    services: ['Natural Wellness', 'Yoga'],
+    rating: 4.9,
+    reviewCount: 54,
+    priceFrom: 3100,
+    note: 'Plantation walks, forest bathing and restorative practice.',
   },
 ];
 

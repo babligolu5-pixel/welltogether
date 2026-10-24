@@ -1,12 +1,14 @@
-import { CENTRES } from '../data/site';
+import { Link } from 'react-router-dom';
+import { getCentres } from '../lib/catalogue';
+import { useEnquiry } from '../lib/enquiryContext';
+import CentreCard from './CentreCard';
 
-interface Props {
-  onEnquire: (centre: { id: string; name: string; service: string }) => void;
-}
+const HOME_LIMIT = 6;
 
-const inr = (value: number) => `₹${value.toLocaleString('en-IN')}`;
+export default function FeaturedCentres() {
+  const openEnquiry = useEnquiry();
+  const centres = getCentres().slice(0, HOME_LIMIT);
 
-export default function FeaturedCentres({ onEnquire }: Props) {
   return (
     <section
       className="section section-alt"
@@ -33,62 +35,26 @@ export default function FeaturedCentres({ onEnquire }: Props) {
         </p>
 
         <div className="centre-grid" data-testid="centre-grid">
-          {CENTRES.map((centre) => (
-            <article
+          {centres.map((centre) => (
+            <CentreCard
               key={centre.id}
-              className="card centre-card"
-              data-testid="centre-card"
-              data-centre={centre.id}
-            >
-              <div className="card-head">
-                <div>
-                  <h3 className="centre-name">{centre.name}</h3>
-                  <p className="centre-city">{centre.city}</p>
-                </div>
-                <span className="demo-badge">Demo</span>
-              </div>
-
-              <p className="centre-note">{centre.note}</p>
-
-              <div className="chips">
-                {centre.services.map((service) => (
-                  <span key={service} className="chip">
-                    {service}
-                  </span>
-                ))}
-              </div>
-
-              <p className="centre-meta">
-                <span
-                  className="rating"
-                  aria-label={`Rated ${centre.rating} out of 5 from ${centre.reviewCount} reviews`}
-                >
-                  <span aria-hidden="true">★</span>
-                  {centre.rating.toFixed(1)}
-                </span>
-                <span>({centre.reviewCount})</span>
-                <span className="price">From {inr(centre.priceFrom)}</span>
-              </p>
-
-              <div className="card-actions">
-                <button
-                  type="button"
-                  className="btn btn-ghost btn-small"
-                  data-testid="centre-enquire"
-                  onClick={() =>
-                    onEnquire({
-                      id: centre.id,
-                      name: centre.name,
-                      service: centre.services[0] ?? 'Not sure yet',
-                    })
-                  }
-                >
-                  Enquire
-                </button>
-              </div>
-            </article>
+              centre={centre}
+              onEnquire={(item) =>
+                openEnquiry({
+                  centreId: item.id,
+                  centreName: item.name,
+                  service: item.services[0] ?? 'Not sure yet',
+                })
+              }
+            />
           ))}
         </div>
+
+        <p className="section-more">
+          <Link to="/centres" className="btn btn-ghost" data-testid="browse-all-centres">
+            Browse all centres
+          </Link>
+        </p>
       </div>
     </section>
   );

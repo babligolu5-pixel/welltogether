@@ -64,6 +64,7 @@
 
 - Requirements approved: 2026-10-24
 - Test cases approved: 2026-10-24
-- Last run: _(filled after the green run)_
-- Production build: _(filled after `npm run build`)_
-- Deployed: _(filled after deploy)_
+- Last run: `npm test` — 186 passed, 6 skipped (Chromium, Firefox, WebKit; workers=3)
+- Header suite: 66/66 passed (22 × 3 browsers); headed pass 22/22
+- Production build: `npm run build` — pass
+- Deployed: `welltogether-77546` — hosting
