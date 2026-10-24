@@ -27,15 +27,15 @@ function ZenGarden({ animate, quality }: { animate: boolean; quality: Quality })
 
   const leaves = useMemo(
     () =>
-      Array.from({ length: quality === 'high' ? 7 : 4 }, (_, i) => ({
+      Array.from({ length: quality === 'high' ? 9 : 5 }, (_, i) => ({
         position: [
-          -3.2 + (i % 3) * 2.1,
-          1.2 + Math.sin(i) * 1.1,
-          -1.2 + (i % 2) * 1.4,
+          -3.6 + (i % 4) * 2.3,
+          0.9 + Math.sin(i * 1.7) * 1.5,
+          -0.8 + (i % 3) * 0.9,
         ] as [number, number, number],
-        rotation: [Math.PI / 3, i * 0.6, i * 0.4] as [number, number, number],
-        scale: 0.5 + (i % 3) * 0.14,
-        speed: 0.24 + i * 0.05,
+        rotation: [Math.PI / 2.4, i * 0.7, i * 0.5] as [number, number, number],
+        scale: 0.7 + (i % 3) * 0.18,
+        speed: 0.2 + i * 0.04,
       })),
     [quality],
   );
@@ -61,30 +61,30 @@ function ZenGarden({ animate, quality }: { animate: boolean; quality: Quality })
 
   return (
     <group ref={group} position={[0.6, 0, 0]}>
-      <ambientLight intensity={1.15} />
-      <directionalLight position={[4, 6, 5]} intensity={1.1} color="#fff6e6" />
-      <directionalLight position={[-5, -2, 2]} intensity={0.5} color="#9caf88" />
+      <ambientLight intensity={0.85} />
+      <directionalLight position={[4, 6, 5]} intensity={1.45} color="#fff6e6" />
+      <directionalLight position={[-5, -2, 2]} intensity={0.65} color="#9caf88" />
 
       {/* zen stones */}
-      <mesh position={[-1.9, -1.55, 0.2]} rotation={[0.2, 0.4, 0.1]} castShadow={false}>
-        <sphereGeometry args={[1.02, seg, seg]} />
-        <meshStandardMaterial color="#b9ae9d" roughness={0.92} />
+      <mesh position={[-2.35, -1.62, 0.2]} rotation={[0.22, 0.4, 0.1]} scale={[1, 0.72, 0.92]}>
+        <sphereGeometry args={[1.0, seg, seg]} />
+        <meshStandardMaterial color="#b3a897" roughness={0.95} metalness={0.02} />
       </mesh>
-      <mesh position={[-1.55, -0.72, 0.35]} rotation={[0.1, 0.9, 0.2]}>
-        <sphereGeometry args={[0.68, seg, seg]} />
-        <meshStandardMaterial color="#c8b9a9" roughness={0.95} />
+      <mesh position={[-2.0, -1.0, 0.35]} rotation={[0.12, 0.9, 0.2]} scale={[1, 0.68, 0.9]}>
+        <sphereGeometry args={[0.62, seg, seg]} />
+        <meshStandardMaterial color="#c6b7a5" roughness={0.97} />
       </mesh>
-      <mesh position={[-1.3, -0.12, 0.5]} rotation={[0.4, 0.2, 0.3]}>
-        <sphereGeometry args={[0.4, seg, seg]} />
-        <meshStandardMaterial color="#d6cabb" roughness={0.98} />
+      <mesh position={[-1.76, -0.42, 0.5]} rotation={[0.4, 0.2, 0.3]} scale={[1, 0.7, 0.88]}>
+        <sphereGeometry args={[0.34, seg, seg]} />
+        <meshStandardMaterial color="#d5c8b7" roughness={0.98} />
       </mesh>
 
       {/* water ripples */}
-      <group ref={ripple} position={[-1.6, -2.1, 0.1]} rotation={[-Math.PI / 2.25, 0, 0]}>
-        {[2.0, 2.7, 3.4].map((radius, i) => (
+      <group ref={ripple} position={[-2.3, -2.35, 0.1]} rotation={[-Math.PI / 2.25, 0, 0]}>
+        {[1.7, 2.3, 2.9, 3.5].map((radius, i) => (
           <mesh key={radius} position={[0, 0, i * 0.02]}>
-            <torusGeometry args={[radius, 0.012, 8, seg * 2]} />
-            <meshBasicMaterial color="#8fa8b8" transparent opacity={0.22} />
+            <torusGeometry args={[radius, 0.009, 6, seg * 2]} />
+            <meshBasicMaterial color="#8fa8b8" transparent opacity={0.24} />
           </mesh>
         ))}
       </group>
@@ -94,20 +94,30 @@ function ZenGarden({ animate, quality }: { animate: boolean; quality: Quality })
         <FloatLeaf key={i} {...leaf} animate={animate} />
       ))}
 
-      {/* meditation orb */}
-      <mesh position={[2.5, 1.35, -0.6]}>
-        <sphereGeometry args={[0.95, seg, seg]} />
-        <meshStandardMaterial
-          color="#9caf88"
-          roughness={0.4}
-          transparent
-          opacity={0.34}
-        />
+      {/* meditation orb + seated silhouette */}
+      <mesh position={[2.55, 1.2, -0.6]}>
+        <sphereGeometry args={[0.85, seg, seg]} />
+        <meshStandardMaterial color="#9caf88" roughness={0.45} transparent opacity={0.3} />
       </mesh>
-      <mesh position={[2.5, 1.35, -0.6]}>
-        <sphereGeometry args={[1.22, seg, seg]} />
-        <meshBasicMaterial color="#f7f2e8" transparent opacity={0.1} wireframe />
+      <mesh position={[2.55, 1.2, -0.6]}>
+        <sphereGeometry args={[1.12, seg, seg]} />
+        <meshBasicMaterial color="#f7f2e8" transparent opacity={0.08} wireframe />
       </mesh>
+
+      <group position={[2.45, -1.5, 0.5]} rotation={[0, -0.25, 0]}>
+        <mesh position={[0, 0.62, 0]}>
+          <sphereGeometry args={[0.16, seg, seg]} />
+          <meshStandardMaterial color="#8b9a78" roughness={0.8} transparent opacity={0.75} />
+        </mesh>
+        <mesh position={[0, 0.18, 0]}>
+          <coneGeometry args={[0.38, 0.62, seg]} />
+          <meshStandardMaterial color="#93a37f" roughness={0.85} transparent opacity={0.7} />
+        </mesh>
+        <mesh position={[0, 0.5, 0]} rotation={[-Math.PI / 2, 0, 0]}>
+          <torusGeometry args={[0.36, 0.012, 6, seg * 2]} />
+          <meshBasicMaterial color="#c8b9a9" transparent opacity={0.5} />
+        </mesh>
+      </group>
     </group>
   );
 }
@@ -133,9 +143,20 @@ function FloatLeaf({ position, rotation, scale, speed, animate }: LeafProps) {
   });
 
   return (
-    <mesh ref={ref} position={position} rotation={rotation} scale={[scale, scale * 1.9, scale]}>
-      <sphereGeometry args={[0.3, 14, 14]} />
-      <meshStandardMaterial color="#8ea87c" roughness={0.7} transparent opacity={0.85} />
+    <mesh
+      ref={ref}
+      position={position}
+      rotation={rotation}
+      scale={[0.17 * scale, 0.36 * scale, 0.02]}
+    >
+      <sphereGeometry args={[1, 16, 12]} />
+      <meshStandardMaterial
+        color="#8ea87c"
+        roughness={0.65}
+        side={THREE.DoubleSide}
+        transparent
+        opacity={0.75}
+      />
     </mesh>
   );
 }

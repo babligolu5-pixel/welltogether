@@ -81,7 +81,6 @@
 - Requirements approved: 2026-10-24
 - Test cases approved: 2026-10-24
 - Last full run: `npm test` — 84/84 passed (chromium 28, firefox 28, webkit 28)
+- Live suite: 30/30 passed against https://welltogether-77546.web.app
 - Production build: `npm run build` — pass
-- Deployed: `welltogether-77546` (2026-10-24) — hosting only; Firestore rules
-  deploy blocked until Cloud Firestore is enabled.
-- Blocked: TC rules checks (create/deny) need Firestore enabled + Java emulator.
+- Deployed: `welltogether-77546` (2026-10-24) — hosting + Firestore rules

@@ -18,7 +18,7 @@ service cloud.firestore {
         && data.name is string && data.name.size() >= 2 && data.name.size() <= 80
         && data.email is string && data.email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
         && data.message is string && data.message.size() >= 10 && data.message.size() <= 800
-        && data.service is string && data.service.size() <= 60
+        && data['service'] is string && data['service'].size() <= 60
         && (!('phone' in data) || (data.phone is string && data.phone.size() <= 20))
         && (!('centreId' in data) || (data.centreId is string && data.centreId.size() <= 60))
         && data.source == 'website'

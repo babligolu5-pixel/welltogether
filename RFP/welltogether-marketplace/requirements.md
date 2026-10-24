@@ -112,16 +112,13 @@ Fonts: Fraunces (headings) and Inter (body), self-hosted via `@fontsource`.
 
 - Language is English only.
 - Enquiries are stored in Firestore; no email notification (would need a backend).
-- Firestore must be enabled in `welltogether-77546` before the form can write
-  in production.
-- Java is not installed, so the Firestore emulator and rules unit tests are
-  blocked on this machine.
+- Cloud Firestore is enabled (Native mode) in `welltogether-77546` and the rules
+  from `firestore.rules` are deployed.
+- Java is not installed, so emulator-based rules unit tests are unavailable on
+  this machine; rules are verified against the live project instead.
 
-## Open questions
+## Resolved prerequisites
 
-None — the items above are accepted as defaults.
-
-## Prerequisites owned by the user
-
-1. Enable Cloud Firestore (Native mode, `asia-south1`) in the Firebase console.
-2. Register a Firebase Web App so client config values can be issued.
+1. Cloud Firestore enabled (Native mode) — done.
+2. Firebase Web App registered (`welltogether-web`) — done, config in
+   `.env.local` (gitignored) and `.env.example` documents the names.

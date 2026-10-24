@@ -215,7 +215,7 @@ test.describe('hero calls to action', () => {
           page.evaluate(
             () => Math.abs(document.getElementById('services')?.getBoundingClientRect().top ?? 999),
           ),
-        { timeout: 5000 },
+        { timeout: 10000 },
       )
       .toBeLessThanOrEqual(100);
 
@@ -227,7 +227,7 @@ test.describe('hero calls to action', () => {
           page.evaluate(
             () => Math.abs(document.getElementById('centres')?.getBoundingClientRect().top ?? 999),
           ),
-        { timeout: 5000 },
+        { timeout: 10000 },
       )
       .toBeLessThanOrEqual(100);
   });
@@ -355,7 +355,7 @@ test.describe('enquiry flow', () => {
 
     await page.getByTestId('enquiry-submit').click();
     await expect(page.getByTestId('enquiry-submit')).toBeDisabled();
-    await expect(page.getByTestId('enquiry-success')).toBeVisible({ timeout: 5000 });
+    await expect(page.getByTestId('enquiry-success')).toBeVisible({ timeout: 10000 });
 
     await page.getByTestId('enquiry-close').click();
     await openEnquiry(page);

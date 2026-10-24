@@ -1,5 +1,7 @@
 import { defineConfig, devices } from '@playwright/test';
 
+const externalBaseURL = process.env.PLAYWRIGHT_BASE_URL;
+
 export default defineConfig({
   testDir: './tests',
   fullyParallel: true,
@@ -8,7 +10,7 @@ export default defineConfig({
   workers: process.env.CI ? 1 : undefined,
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
-    baseURL: 'http://localhost:5173',
+    baseURL: externalBaseURL ?? 'http://localhost:5173',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
@@ -32,8 +34,11 @@ export default defineConfig({
   ],
 
   // `.env.test` sets VITE_E2E_MODE=1 so the enquiry adapter returns without
-  // touching a real Firestore database.
-  webServer: {
+  // touching a real Firestore database. Skip the dev server when a live URL is
+  // supplied through PLAYWRIGHT_BASE_URL.
+  webServer: externalBaseURL
+    ? undefined
+    : {
     command: 'npm run dev -- --mode test',
     url: 'http://localhost:5173',
     reuseExistingServer: !process.env.CI,
