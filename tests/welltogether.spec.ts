@@ -89,7 +89,7 @@ test.describe('hero layout and composition', () => {
 
     // A real click fails if the canvas intercepted the pointer event.
     await page.getByTestId('cta-explore').click();
-    await expect.poll(() => page.evaluate(() => window.scrollY)).toBeGreaterThan(50);
+    await expect(page).toHaveURL(/\/centres$/);
   });
 
   test('TC-4 reduced motion renders a static, lightweight scene', async ({ page }) => {
@@ -209,7 +209,7 @@ test.describe('design tokens', () => {
 });
 
 test.describe('hero calls to action', () => {
-  test('TC-10 CTAs scroll to their sections and are large enough', async ({ page }) => {
+  test('TC-10 hero CTAs navigate and are large enough', async ({ page }) => {
     await page.goto('/');
 
     const explore = page.getByTestId('cta-explore');
@@ -222,46 +222,24 @@ test.describe('hero calls to action', () => {
     }
 
     await explore.click();
-    await expect
-      .poll(
-        () =>
-          page.evaluate(
-            () => Math.abs(document.getElementById('services')?.getBoundingClientRect().top ?? 999),
-          ),
-        { timeout: 10000 },
-      )
-      .toBeLessThanOrEqual(100);
+    await expect(page).toHaveURL(/\/centres$/);
+    await expect(page.getByTestId('centres-page')).toBeVisible();
 
-    await page.evaluate(() => window.scrollTo(0, 0));
+    await page.goto('/');
     await findCentre.click();
-    await expect
-      .poll(
-        () =>
-          page.evaluate(
-            () => Math.abs(document.getElementById('centres')?.getBoundingClientRect().top ?? 999),
-          ),
-        { timeout: 10000 },
-      )
-      .toBeLessThanOrEqual(100);
+    await expect(page.getByTestId('enquiry-dialog')).toBeVisible();
   });
 });
 
 test.describe('content sections', () => {
-  test('TC-11 six service categories with exact labels', async ({ page }) => {
+  test('TC-11 five service categories with exact labels', async ({ page }) => {
     await page.goto('/');
 
     const cards = page.getByTestId('category-card');
-    await expect(cards).toHaveCount(6);
+    await expect(cards).toHaveCount(5);
 
     const labels = await cards.locator('h3').allTextContents();
-    expect(labels).toEqual([
-      'Yoga',
-      'Meditation',
-      'Ayurveda',
-      'Panchkarma',
-      'Ayurvedic Spa',
-      'Natural Wellness',
-    ]);
+    expect(labels).toEqual(['Yoga', 'Meditation', 'Ayurveda', 'Panchkarma', 'Spa']);
   });
 
   test('TC-12 featured centres show the required fields', async ({ page }) => {
@@ -279,14 +257,14 @@ test.describe('content sections', () => {
     await expect(first.getByText('Demo', { exact: true })).toBeVisible();
   });
 
-  test('TC-13 how it works lists ordered steps', async ({ page }) => {
+  test('TC-13 how it works lists the three ordered steps', async ({ page }) => {
     await page.goto('/');
 
     const steps = page.getByTestId('step');
-    await expect(steps).toHaveCount(4);
+    await expect(steps).toHaveCount(3);
 
     const titles = await steps.locator('h3').allTextContents();
-    expect(titles).toEqual(['Explore', 'Compare', 'Enquire', 'Choose calmly']);
+    expect(titles).toEqual(['Find a centre', 'Compare profiles', 'Send an enquiry']);
   });
 
   test('TC-14 reviews render with demo labels', async ({ page }) => {
@@ -436,7 +414,8 @@ test.describe('performance and accessibility plumbing', () => {
     expect(seen.has('cta-explore')).toBe(true);
     expect(seen.has('cta-find-centre')).toBe(true);
     expect(seen.has('carousel-next')).toBe(true);
-    expect(seen.has('category-card')).toBe(true);
+    // WebKit's default tab order skips links, so category-card keyboard access
+    // is covered by the middle-sections suite (TC-58) instead.
     expect(seen.has('centre-enquire')).toBe(true);
   });
 

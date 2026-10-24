@@ -14,6 +14,9 @@ export const getCities = (): string[] =>
 export const getCentresByService = (service: string): Centre[] =>
   CENTRES.filter((centre) => centre.services.includes(service));
 
+export const getCentreById = (id: string): Centre | undefined =>
+  CENTRES.find((centre) => centre.id === id);
+
 export const getMenuCategories = (): MenuCategory[] => MENU_CATEGORIES;
 
 export const findMenuCategory = (slug: string): MenuCategory | undefined =>

@@ -11,14 +11,7 @@ const SECTION_LINKS = [
   { name: 'Reviews', id: 'reviews' },
 ];
 
-const SERVICES = [
-  'Yoga',
-  'Meditation',
-  'Ayurveda',
-  'Panchkarma',
-  'Ayurvedic Spa',
-  'Natural Wellness',
-];
+const SERVICES = ['Yoga', 'Meditation', 'Ayurveda', 'Panchkarma', 'Spa'];
 
 async function openCentreDialog(page: Page) {
   await page.getByTestId('centre-enquire').first().click();
@@ -157,16 +150,16 @@ test.describe('carousel controls', () => {
 });
 
 test.describe('cards open a prefilled enquiry', () => {
-  test('each service category preselects its own service', async ({ page }) => {
+  test('each service category opens its own catalogue page', async ({ page }) => {
     await page.goto('/');
 
     for (let index = 0; index < SERVICES.length; index += 1) {
       await page.getByTestId('category-card').nth(index).click();
-      const dialog = page.getByTestId('enquiry-dialog');
-      await expect(dialog).toBeVisible();
-      await expect(page.getByTestId('enquiry-service')).toHaveValue(SERVICES[index]);
-      await page.getByTestId('enquiry-close').click();
-      await expect(dialog).toBeHidden();
+      await expect(page.getByTestId('service-page')).toBeVisible();
+      await expect(page.getByRole('heading', { level: 1 })).toContainText(SERVICES[index]);
+      await expect(page.getByTestId('enquiry-dialog')).toHaveCount(0);
+      await page.goBack();
+      await expect(page.getByTestId('category-card')).toHaveCount(SERVICES.length);
     }
   });
 

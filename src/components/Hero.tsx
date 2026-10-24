@@ -1,14 +1,14 @@
 import { lazy, Suspense, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Carousel from './Carousel';
+import { useEnquiry } from '../lib/enquiryContext';
 import { useIsSmallScreen, usePrefersReducedMotion } from '../lib/useMediaQuery';
 
 const HeroScene = lazy(() => import('./HeroScene'));
 
-function scrollTo(id: string) {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
 export default function Hero() {
+  const navigate = useNavigate();
+  const openEnquiry = useEnquiry();
   const reduced = usePrefersReducedMotion();
   const small = useIsSmallScreen();
   const [sceneReady, setSceneReady] = useState(false);
@@ -41,15 +41,15 @@ export default function Hero() {
                 type="button"
                 className="btn btn-primary"
                 data-testid="cta-explore"
-                onClick={() => scrollTo('services')}
+                onClick={() => navigate('/centres')}
               >
-                Explore Wellness
+                Explore Centres
               </button>
               <button
                 type="button"
                 className="btn btn-ghost"
                 data-testid="cta-find-centre"
-                onClick={() => scrollTo('centres')}
+                onClick={() => openEnquiry()}
               >
                 Find a Centre
               </button>
