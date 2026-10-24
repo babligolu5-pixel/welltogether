@@ -47,6 +47,19 @@ Rules:
 - Firebase CLI is available (`firebase --version` → 15.x). Use it for the
   emulator suite, rules deploy, and hosting deploy.
 
+## Branching model
+
+```
+master   → production. Only receives merges from develop (releases).
+develop  → integration. Every feature merges here first.
+feature/<feature-name> → one feature, cut from develop, merged back to develop.
+fix/<name>, docs/<name>, chore/<name> → same rule for non-feature work.
+```
+
+- One branch per feature, never mix two features in one branch.
+- `master` only advances on a release: `git switch master && git merge --ff-only develop`.
+- Delete the branch after merge (local and remote).
+
 ## Phase 1 — Requirements
 
 Ask questions, do not assume. Keep it to one round of focused questions, then
@@ -122,7 +135,15 @@ Only after approval.
 1. Pick `<feature-name>`: lowercase kebab-case, 2–4 words, derived from the
    feature itself (`contact-form`, `pricing-section`, `blog-search`). Same name
    for the folder and the branch.
-2. Create the branch: `git checkout -b feature/<feature-name>`.
+2. Create the branch from `develop` (never from another feature branch):
+
+```bash
+git switch develop
+git pull
+git switch -c feature/<feature-name>
+git push -u origin feature/<feature-name>
+```
+
    Check `git status` first and keep unrelated work out of the branch. If the
    repo has no commits yet, create the baseline commit before branching.
 3. Save exactly two Markdown files:
