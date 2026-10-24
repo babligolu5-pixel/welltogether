@@ -43,39 +43,45 @@ export interface MenuCategory {
   label: string;
   service: string;
   intro: string;
+  icon: ServiceIcon;
 }
 
-/** Header "Services" menu. "Spa" maps to the Ayurvedic Spa service. */
+/** Landing "Explore Services" grid and the header "Services" menu. */
 export const MENU_CATEGORIES: MenuCategory[] = [
   {
     slug: 'yoga',
     label: 'Yoga',
     service: 'Yoga',
     intro: 'Hatha, Iyengar and restorative classes across India.',
+    icon: 'lotus',
   },
   {
     slug: 'meditation',
     label: 'Meditation',
     service: 'Meditation',
     intro: 'Guided sits, breathwork and multi-day silence retreats.',
+    icon: 'wave',
   },
   {
     slug: 'ayurveda',
     label: 'Ayurveda',
     service: 'Ayurveda',
     intro: 'Physician consultations and daily routines rooted in tradition.',
+    icon: 'leaf',
   },
   {
     slug: 'panchkarma',
     label: 'Panchkarma',
     service: 'Panchkarma',
     intro: 'Supervised detox programmes with qualified practitioners.',
+    icon: 'drop',
   },
   {
     slug: 'spa',
     label: 'Spa',
     service: 'Ayurvedic Spa',
     intro: 'Abhyanga, shirodhara and warm-oil therapies.',
+    icon: 'stone',
   },
 ];
 
@@ -243,20 +249,16 @@ export const CENTRES: Centre[] = [
 
 export const STEPS: Step[] = [
   {
-    title: 'Explore',
-    body: 'Browse wellness categories and see what each tradition actually offers.',
+    title: 'Find a centre',
+    body: 'Browse by service or city and shortlist the centres that fit your needs.',
   },
   {
-    title: 'Compare',
-    body: 'Look at location, services, ratings and starting prices side by side.',
+    title: 'Compare profiles',
+    body: 'Check services, ratings, starting prices and what each programme includes.',
   },
   {
-    title: 'Enquire',
-    body: 'Send one short enquiry — no account, no payment, no pressure.',
-  },
-  {
-    title: 'Choose calmly',
-    body: 'The centre replies directly so you can decide at your own pace.',
+    title: 'Send an enquiry',
+    body: 'One short message goes straight to the centre — no account, no payment.',
   },
 ];
 

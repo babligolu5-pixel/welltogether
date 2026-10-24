@@ -10,6 +10,7 @@ import Footer from './components/Footer';
 import Home from './pages/Home';
 import CentresPage from './pages/CentresPage';
 import ServicePage from './pages/ServicePage';
+import CentreProfile from './pages/CentreProfile';
 import NotFound from './pages/NotFound';
 import { EnquiryContext } from './lib/enquiryContext';
 import type { EnquiryTarget } from './lib/types';
@@ -52,6 +53,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/centres" element={<CentresPage />} />
+            <Route path="/centres/:id" element={<CentreProfile />} />
             <Route path="/services/:slug" element={<ServicePage />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
