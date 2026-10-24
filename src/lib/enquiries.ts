@@ -100,8 +100,8 @@ export async function submitEnquiry(draft: EnquiryDraft): Promise<void> {
     return;
   }
 
-  const db = await getDb();
-  const { addDoc, collection, serverTimestamp } = await import('firebase/firestore');
+  const db = getDb();
+  const { addDoc, collection, serverTimestamp } = await import('firebase/firestore/lite');
   await addDoc(collection(db, 'enquiries'), {
     ...payload,
     createdAt: serverTimestamp(),
