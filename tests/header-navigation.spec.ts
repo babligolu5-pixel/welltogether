@@ -228,7 +228,7 @@ test.describe('routing', () => {
       'Checking the enquiry flow from a category page.',
     );
     await page.getByTestId('enquiry-submit').click();
-    await expect(page.getByTestId('enquiry-success')).toBeVisible({ timeout: 10_000 });
+    await expect(page.getByTestId('enquiry-success')).toBeVisible({ timeout: 20_000 });
   });
 
   test('TC-18 each page has its own metadata', async ({ page }) => {

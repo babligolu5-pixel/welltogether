@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import {
   BrowserRouter,
   Route,
@@ -7,13 +7,15 @@ import {
 } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import EnquiryDialog from './components/EnquiryDialog';
 import Home from './pages/Home';
 import CentresPage from './pages/CentresPage';
 import ServicePage from './pages/ServicePage';
 import NotFound from './pages/NotFound';
 import { EnquiryContext } from './lib/enquiryContext';
 import type { EnquiryTarget } from './lib/types';
+
+// Firebase only ships when someone opens the enquiry form.
+const EnquiryDialog = lazy(() => import('./components/EnquiryDialog'));
 
 function ScrollManager() {
   const { pathname, hash } = useLocation();
@@ -57,12 +59,11 @@ export default function App() {
 
         <Footer />
 
-        <EnquiryDialog
-          open={enquiry !== null}
-          target={enquiry ?? {}}
-          onClose={() => setEnquiry(null)}
-        />
-      </EnquiryContext.Provider>
+        {enquiry !== null && (
+          <Suspense fallback={null}>
+            <EnquiryDialog open target={enquiry} onClose={() => setEnquiry(null)} />
+          </Suspense>
+        )}      </EnquiryContext.Provider>
     </BrowserRouter>
   );
 }

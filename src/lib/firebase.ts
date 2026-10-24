@@ -1,4 +1,5 @@
-import type { Firestore } from 'firebase/firestore';
+import { initializeApp, type FirebaseApp } from 'firebase/app';
+import { getFirestore, type Firestore } from 'firebase/firestore/lite';
 
 const config = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -16,20 +17,22 @@ export const isFirebaseConfigured = Boolean(
 /** Test-only escape hatch so the enquiry UI can be exercised without a project. */
 export const isE2EMode = import.meta.env.VITE_E2E_MODE === '1';
 
-let dbPromise: Promise<Firestore> | null = null;
+let app: FirebaseApp | null = null;
+let db: Firestore | null = null;
 
-export function getDb(): Promise<Firestore> {
+/**
+ * Static imports matter here: the modular SDK registers its Firestore
+ * provider as a module side effect, and a split/lazy module graph can drop it,
+ * which surfaces as "Service firestore is not available". Keeping the imports
+ * static (inside a lazily loaded component chunk) keeps one valid registry.
+ */
+export function getDb(): Firestore {
   if (!isFirebaseConfigured) {
-    return Promise.reject(new Error('firebase-not-configured'));
+    throw new Error('firebase-not-configured');
   }
-
-  dbPromise ??= (async () => {
-    const [{ initializeApp }, { getFirestore }] = await Promise.all([
-      import('firebase/app'),
-      import('firebase/firestore'),
-    ]);
-    return getFirestore(initializeApp(config));
-  })();
-
-  return dbPromise;
+  if (!db) {
+    app ??= initializeApp(config);
+    db = getFirestore(app);
+  }
+  return db;
 }

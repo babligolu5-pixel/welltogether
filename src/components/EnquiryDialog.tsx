@@ -80,6 +80,7 @@ export default function EnquiryDialog({ open, target, onClose }: Props) {
       setStatus('success');
       setValues(EMPTY);
     } catch (error) {
+      console.error('[enquiry] submit failed', error);
       const message = error instanceof Error ? error.message : 'unknown';
       setStatus('error');
       if (message === 'rate-limited') {
@@ -116,7 +117,7 @@ export default function EnquiryDialog({ open, target, onClose }: Props) {
           data-testid="enquiry-close"
           onClick={onClose}
         >
-          Ã—
+          ×
         </button>
 
         <h2 id="enquiry-title">Send a wellness enquiry</h2>
