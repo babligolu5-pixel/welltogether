@@ -80,6 +80,8 @@
 
 - Requirements approved: 2026-10-24
 - Test cases approved: 2026-10-24
-- Last full run: _(filled after the green run)_
-- Production build: _(filled after `npm run build`)_
-- Deployed: _(filled after deploy)_
+- Last full run: `npm test` — 84/84 passed (chromium 28, firefox 28, webkit 28)
+- Production build: `npm run build` — pass
+- Deployed: `welltogether-77546` (2026-10-24) — hosting only; Firestore rules
+  deploy blocked until Cloud Firestore is enabled.
+- Blocked: TC rules checks (create/deny) need Firestore enabled + Java emulator.

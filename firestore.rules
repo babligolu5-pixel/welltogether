@@ -1,0 +1,33 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Enquiries are write-only for the public site: anyone may create a
+    // validated enquiry, nobody may read, update or delete it from the client.
+    match /enquiries/{enquiryId} {
+      allow create: if isValidEnquiry(request.resource.data);
+      allow read, update, delete: if false;
+    }
+
+    function isValidEnquiry(data) {
+      return data.keys().hasOnly([
+          'name', 'email', 'phone', 'service', 'centreId', 'message',
+          'source', 'createdAt'
+        ])
+        && data.name is string && data.name.size() >= 2 && data.name.size() <= 80
+        && data.email is string && data.email.matches('^[^@\\s]+@[^@\\s]+\\.[^@\\s]+$')
+        && data.message is string && data.message.size() >= 10 && data.message.size() <= 800
+        && data.service is string && data.service.size() <= 60
+        && (!('phone' in data) || (data.phone is string && data.phone.size() <= 20))
+        && (!('centreId' in data) || (data.centreId is string && data.centreId.size() <= 60))
+        && data.source == 'website'
+        && data.createdAt == request.time;
+    }
+
+    // Everything else is closed by default.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
