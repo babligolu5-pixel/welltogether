@@ -104,15 +104,28 @@ test.describe('hero layout and composition', () => {
 });
 
 test.describe('frosted panel and carousel', () => {
-  test('TC-5 panel shows heading, description and at least three slides', async ({ page }) => {
+  test('TC-5 panel is fully transparent and shows slides', async ({ page }) => {
     await page.goto('/');
 
     const panel = page.getByTestId('hero-panel');
     await expect(panel).toBeVisible();
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
 
-    const filter = await panel.evaluate((el) => getComputedStyle(el).backdropFilter);
-    expect(filter).toContain('blur');
+    const styles = await panel.evaluate((el) => {
+      const cs = getComputedStyle(el);
+      return {
+        background: cs.backgroundColor,
+        filter: cs.backdropFilter,
+        border: `${cs.borderTopWidth} ${cs.borderBottomWidth}`,
+        shadow: cs.boxShadow,
+      };
+    });
+
+    // Approved change: the panel must not box the hero — no fill, no blur.
+    expect(styles.background).toBe('rgba(0, 0, 0, 0)');
+    expect(styles.filter).toBe('none');
+    expect(styles.border).toBe('0px 0px');
+    expect(styles.shadow).toBe('none');
 
     await expect(page.getByTestId('hero-slide')).toHaveCount(1);
     await expect(page.getByTestId('carousel-dot')).toHaveCount(4);

@@ -52,8 +52,8 @@ centre detail routes (cards + enquiry modal only), Cloud Storage uploads.
 | R-3 | Hero section sits immediately below the header | Hero starts at header bottom (no gap, no intermediate section) | critical |
 | R-4 | Full-bleed 3D background: zen stones, water ripples, leaves, meditation elements | Canvas spans viewport width; no card/box frame; elements blend into open background | critical |
 | R-5 | Slow floating motion with subtle depth that never blocks reading or clicking | Canvas is `pointer-events: none`; `prefers-reduced-motion` renders a static scene | critical |
-| R-6 | Transparent frosted-glass panel above the visuals: heading, short description, service info slides, manual navigation | Auto-advance + prev/next + dots + keyboard arrows + touch swipe; pause/play control | critical |
-| R-7 | Visuals remain visible through the panel while text contrast stays clear | Panel text ≥ 4.5:1 (≥ 3:1 for large) against worst-case backdrop, via tint + blur + scrim | critical |
+| R-6 | Transparent hero panel (no fill, no blur): heading, short description, service info slides, manual navigation | Auto-advance + prev/next + dots + keyboard arrows + touch swipe; pause/play control; 3D visuals visible through the panel area | critical |
+| R-7 | Visuals remain visible through the panel while text contrast stays clear | Panel background fully transparent; copy sits on an open gradient wash (no box); text ≥ 4.5:1 (≥ 3:1 for large) | critical |
 | R-8 | Palette: English Sage, Warm Ivory, Dusty Blue, Soft Taupe; Muted Olive for buttons/actions | Tokens defined in CSS variables; primary actions use Muted Olive only | critical |
 | R-9 | Hero CTAs: "Explore Wellness" and "Find a Centre" | Scroll to Service Categories / Featured Centres; ≥ 44px targets; visible focus | critical |
 | R-10 | Service Categories: Yoga, Meditation, Ayurveda, Panchkarma, Ayurvedic Spa, Natural Wellness | Exactly six cards with these labels; card opens enquiry with service preselected | high |

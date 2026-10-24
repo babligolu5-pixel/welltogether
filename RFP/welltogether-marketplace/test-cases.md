@@ -39,7 +39,7 @@
 | TC-2 | Hero canvas is full-bleed and unframed | R-4 | critical | Canvas spans viewport width; no card/section border; `pointer-events: none` |
 | TC-3 | Visual layer does not block the CTAs | R-5 | critical | Both hero CTAs receive clicks and are visible |
 | TC-4 | Reduced motion disables the animation | R-5 | critical | With `prefers-reduced-motion: reduce`, canvas is marked static and no animation loop runs |
-| TC-5 | Frosted panel shows heading, description and ≥3 slides | R-6 | critical | Panel visible, `backdrop-filter` applied, slide counter ≥ 3 |
+| TC-5 | Panel is fully transparent (no fill, no blur) and shows slides | R-6, R-7 | critical | `background` is transparent, `backdrop-filter: none`, no border/shadow; heading visible; slide counter ≥ 3 slides |
 | TC-6 | Manual navigation works | R-6 | critical | Next/prev/dots and ArrowRight/ArrowLeft change the active slide |
 | TC-7 | Autoplay can be paused | R-6 | high | Pause button toggles `aria-pressed`; slide stops advancing while paused |
 | TC-8 | Palette tokens and contrast | R-7, R-8 | critical | Computed styles use token hexes; button text contrast ≥ 4.5:1 |
